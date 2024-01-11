@@ -1,8 +1,11 @@
-#!/bin/bash -e
+#!/bin/bash
 
+echo "Entrypoint > Starting the Application"
 # If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+if [ "${*}" == "bundle exec rails server" ]; then
+  echo "Entrypoint > Preparing database"
+  bundle exec rails db:create
+  bundle exec rails db:prepare
 fi
-
+echo "Entrypoint > Executing command: ${*} "
 exec "${@}"
